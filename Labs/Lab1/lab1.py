@@ -10,3 +10,12 @@ def poly_fit(x, y, p):
             X[row, col] = x[row] ** col
     
     return np.matmul (np.matmul( np.linalg.inv( np.matmul(np.transpose(X), X) ), np.transpose(X) ), y)
+
+
+
+def poly(a, x):
+    res = 0
+    for p in range(0, len(a)):
+        res += a[p] * x**p
+        
+    return res
