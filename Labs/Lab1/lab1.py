@@ -29,13 +29,14 @@ def poly_vector(a, x_):
         
     return y_
 
-def compute_SSE(y,x,a):
-    y_hat=poly(a,x)
-    SSE=np.linalg.norm(y-y_hat, ord=2)**2
-    return SSE
+def SSE(Y, Y_):
+    if len(Y.shape)>1:
+        Y = np.squeeze(Y)
 
-def indic(y,x,a):
-    SSE=compute_SSE(y,x,a)
+    return np.linalg.norm(Y-Y_, ord=2)**2
+
+
+def indic(SSE,a):
     print('\n')
     print('B coeficients are:')
     for i in range(0,len(a)):
