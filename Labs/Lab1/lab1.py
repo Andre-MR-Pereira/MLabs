@@ -19,3 +19,12 @@ def poly(a, x):
         res += a[p] * x**p
         
     return res
+
+
+
+def poly_vector(a, x_):
+    y_ = np.zeros([len(x_)])
+    for i in range(0, len(x_)):
+        y_[i] = poly(a, x_[i])
+        
+    return y_
