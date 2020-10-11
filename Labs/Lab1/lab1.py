@@ -9,7 +9,7 @@ def poly_fit(x, y, p):
         for col in range(0, X.shape[1]):
             X[row, col] = x[row] ** col
     
-    return np.matmul (np.matmul( np.linalg.inv( np.matmul(np.transpose(X), X) ), np.transpose(X) ), y)
+    return np.matmul (np.matmul( np.linalg.inv( np.matmul(np.transpose(X), X) ), np.transpose(X) ), y).squeeze()
 
 
 
@@ -29,11 +29,12 @@ def poly_vector(a, x_):
         
     return y_
 
-def SSE(Y, Y_):
-    if len(Y.shape)>1:
-        Y = np.squeeze(Y)
 
-    return np.linalg.norm(Y-Y_, ord=2)**2
+def SSE(y, y_):
+    if len(y.shape)>1:
+        y = np.squeeze(y)
+
+    return np.linalg.norm(y-y_, ord=2)**2
 
 
 
