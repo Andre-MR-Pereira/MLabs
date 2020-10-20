@@ -11,15 +11,18 @@ import math
 
 
 ###Quad1
-def quad1(x_o=-9.0,a=1.0,eta=0.1,threshold=0.01,maxiter=1000,anim=1):
+def quad1(x_o=-9.0,a=1.0,eta=0.1,threshold=0.01,maxiter=1000,anim=1, plot=True):
     it = 0
     
     x1a = np.linspace(-10, 10, 20)
     
     y = (a*x1a**2)/2
     
-    plt.clf()
-    plt.plot(x1a,y)
+    if plot: 
+        plt.clf()
+        plt.plot(x1a,y)
+        
+    diverged = False
     
     ###Gradient Method####
     while it != maxiter:
@@ -38,28 +41,32 @@ def quad1(x_o=-9.0,a=1.0,eta=0.1,threshold=0.01,maxiter=1000,anim=1):
                 break
             else:
                 f = (a*(x_o**2))/2 
-                if anim:
+                if anim and plot:
                     plt.plot([x_old, x_o],[fold, f],'r.-')
                     plt.pause(0.2)
                 it += 1
         except:
             print('Diverged')
+            diverged = True
             break
         
     if it == maxiter:
         print('Did not converge in %d steps, f = %f' %(it+1,f))
-        plt.show()
-        return x_o
+        if plot:
+            plt.show()
+        return x_o, it+1, False, diverged
     else:
         print('Converged in %d steps, f = %f' %(it+1,f))
-        plt.show()
-        return x_o
+        if plot:
+            plt.show()
+            
+        return x_o, it+1, True, diverged
 
-print('****STARTING PART 1****')
-x_min = quad1(anim=1)
-print('The estimated value is %f' %(x_min))
+# print('****STARTING PART 1****')
+# x_min = quad1(anim=1)
+# print('The estimated value is %f' %(x_min))
  
-print('****STARTING PART 2****')
+# print('****STARTING PART 2****')
 
 ###Quad2
 def quad2(x_o=[-9.0,9.0],a=2.0,eta=0.1,threshold=0.01,maxiter=1000,alpha=0,anim = 1):
@@ -120,12 +127,12 @@ def quad2(x_o=[-9.0,9.0],a=2.0,eta=0.1,threshold=0.01,maxiter=1000,alpha=0,anim 
         return x_o
     
 
-x_min = quad2(anim = 1)
-print('The estimated value is %s' %(x_min))
+# x_min = quad2(anim = 1)
+# print('The estimated value is %s' %(x_min))
 
-print('****STARTING PART 2 WITH MOMENTUM****')
-x_min = quad2(a=20.0,eta=1,anim = 1,alpha=0.9)
-print('The estimated value is %s' %(x_min))
+# print('****STARTING PART 2 WITH MOMENTUM****')
+# x_min = quad2(a=20.0,eta=1,anim = 1,alpha=0.9)
+# print('The estimated value is %s' %(x_min))
 
 def rosen(x_o=[-1.5,1.0],a=20.0,eta=0.001,threshold=0.001,maxiter=1000,alpha=0.0,anim = 1,up = 1,down = 1,reduce = 1):
     it = 0
@@ -240,6 +247,6 @@ def rosen(x_o=[-1.5,1.0],a=20.0,eta=0.001,threshold=0.001,maxiter=1000,alpha=0.0
         plt.show()
         return x_o
     
-print('****STARTING Rosenbrock****')
-x_min = rosen(x_o=[-1.5,1.0],a=20.0,eta=0.001,threshold=.001,maxiter=1000,alpha=0,anim = 1,up = 1,down = 1,reduce = 1)
-print('The estimated value is %s' %(x_min))
+# print('****STARTING Rosenbrock****')
+# x_min = rosen(x_o=[-1.5,1.0],a=20.0,eta=0.001,threshold=.001,maxiter=1000,alpha=0,anim = 1,up = 1,down = 1,reduce = 1)
+# print('The estimated value is %s' %(x_min))
