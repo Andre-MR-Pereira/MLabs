@@ -35,9 +35,10 @@ def quad1(x_o=-9.0,a=1.0,eta=0.1,threshold=0.01,maxiter=1000,anim=1, plot=True):
         
         try:
             f = (a*(x_o**2))/2 
-            
+           # print(f)
+    #
             if (f < threshold or fold < threshold):  
-                
+
                 break
             else:
                 f = (a*(x_o**2))/2 
@@ -69,7 +70,7 @@ def quad1(x_o=-9.0,a=1.0,eta=0.1,threshold=0.01,maxiter=1000,anim=1, plot=True):
 # print('****STARTING PART 2****')
 
 ###Quad2
-def quad2(x_o=[-9.0,9.0],a=2.0,eta=0.1,threshold=0.01,maxiter=1000,alpha=0,anim = 1):
+def quad2(x_o=[-9.0,9.0],a=2.0,eta=0.1,threshold=0.01,maxiter=1000,alpha=0,anim = 1, plot=True):
     it = 0
     x1 = np.linspace(-10,10,21)
     
@@ -78,15 +79,16 @@ def quad2(x_o=[-9.0,9.0],a=2.0,eta=0.1,threshold=0.01,maxiter=1000,alpha=0,anim 
     [X,Y] = np.meshgrid(x1,x2)
     
     Y = (a*X**2+Y**2)/2
+    if plot:
     
-    plt.clf()
-    plt.contour(Y,10)
-    plt.xticks([0,5,10,15,20],[-10, -5, 0, 5, 10])
-    plt.yticks([0,5,10,15,20],[-10, -5, 0, 5, 10])
-    ax = plt.gca()
-    ax.set_aspect('equal','box')
-    
-    plt.tight_layout()
+        plt.clf()
+        plt.contour(Y,10)
+        plt.xticks([0,5,10,15,20],[-10, -5, 0, 5, 10])
+        plt.yticks([0,5,10,15,20],[-10, -5, 0, 5, 10])
+        ax = plt.gca()
+        ax.set_aspect('equal','box')
+
+        plt.tight_layout()
     
     
     f = (a*x_o[0]**2+x_o[1]**2)/2
@@ -108,23 +110,26 @@ def quad2(x_o=[-9.0,9.0],a=2.0,eta=0.1,threshold=0.01,maxiter=1000,alpha=0,anim 
             if (f < threshold or fold < threshold):
                 break
             else:
-                if anim:
+                if anim and plot:
                     plt.plot([x_old[0]+10, x_o[0]+10],[x_old[1]+10,x_o[1]+10],'r.-')
                     plt.pause(0.2)                    
                 it += 1
         except:
             print('Diverged!')
-            plt.show()
+            if plot:
+                plt.show()
             break
         
     if it == maxiter:
         print('Did not converge in %d steps, f = %f' %(it,f))
-        plt.show()
-        return x_o
+        if plot:
+            plt.show()
+        return x_o, it+1
     else:
         print('Converged in %d steps, f = %f' %(it+1,f))
-        plt.show()
-        return x_o
+        if plot:
+            plt.show()
+        return x_o, it+1
     
 
 # x_min = quad2(anim = 1)
@@ -134,7 +139,7 @@ def quad2(x_o=[-9.0,9.0],a=2.0,eta=0.1,threshold=0.01,maxiter=1000,alpha=0,anim 
 # x_min = quad2(a=20.0,eta=1,anim = 1,alpha=0.9)
 # print('The estimated value is %s' %(x_min))
 
-def rosen(x_o=[-1.5,1.0],a=20.0,eta=0.001,threshold=0.001,maxiter=1000,alpha=0.0,anim = 1,up = 1,down = 1,reduce = 1):
+def rosen(x_o=[-1.5,1.0],a=20.0,eta=0.001,threshold=0.001,maxiter=1000,alpha=0.0,anim = 1,up = 1,down = 1,reduce = 1, plot=True):
     it = 0
     x1 = np.linspace(-2,2,201)
     
@@ -146,16 +151,17 @@ def rosen(x_o=[-1.5,1.0],a=20.0,eta=0.001,threshold=0.001,maxiter=1000,alpha=0.0
     
     v = np.linspace(math.floor(a/80)+3,Y.max(),math.floor(a))
 
-    plt.clf()      
-    plt.contour(Y,v)
-    plt.xticks([0,50,100,150,200],[-2, -1, 0, 1, 2])
-    plt.yticks([0,50,100,150,200],[-1, 0, 1, 2, 3])
-    ax = plt.gca()
-    ax.set_aspect('equal','box')
-    
-    plt.tight_layout()
-    
-    plt.plot(150,100,'b.')
+    if plot:
+        plt.clf()      
+        plt.contour(Y,v)
+        plt.xticks([0,50,100,150,200],[-2, -1, 0, 1, 2])
+        plt.yticks([0,50,100,150,200],[-1, 0, 1, 2, 3])
+        ax = plt.gca()
+        ax.set_aspect('equal','box')
+
+        plt.tight_layout()
+
+        plt.plot(150,100,'b.')
     
     f = (1-x_o[0])**2+a*(x_o[1]-x_o[0]**2)**2
     fold = f
@@ -225,28 +231,35 @@ def rosen(x_o=[-1.5,1.0],a=20.0,eta=0.001,threshold=0.001,maxiter=1000,alpha=0.0
                 break
             else:
                 if anim:
-                    plt.plot([50*x_old[0]+100, 50*x_o[0]+100],[50*x_old[1]+50,50*x_o[1]+50],'r.-')
-                    plt.xticks([0,50,100,150,200],[-2, -1, 0, 1, 2])
-                    plt.yticks([0,50,100,150,200],[-1, 0, 1, 2, 3])
-                    ax = plt.gca()
-                    ax.set_aspect('equal','box')
-                    plt.tight_layout()
-                    plt.pause(0.1)
+                    if plot:
+                        plt.plot([50*x_old[0]+100, 50*x_o[0]+100],[50*x_old[1]+50,50*x_o[1]+50],'r.-')
+                        plt.xticks([0,50,100,150,200],[-2, -1, 0, 1, 2])
+                        plt.yticks([0,50,100,150,200],[-1, 0, 1, 2, 3])
+                        ax = plt.gca()
+                        ax.set_aspect('equal','box')
+                        plt.tight_layout()
+                        plt.pause(0.1)
                 it += 1
         except:
             print('Diverged!')
-            plt.show()
+            if plot:
+                plt.show()
             break
         
     if it == maxiter:
         print('Did not converge in %d steps, f = %f' %(it,f))
-        plt.show()
+        if plot:
+            plt.show()
         return x_o
     else:
         print('Converged in %d steps, f = %f' %(it+1,f))
-        plt.show()
+        if plot:
+            plt.show()
         return x_o
     
 # print('****STARTING Rosenbrock****')
-# x_min = rosen(x_o=[-1.5,1.0],a=20.0,eta=0.001,threshold=.001,maxiter=1000,alpha=0,anim = 1,up = 1,down = 1,reduce = 1)
+
+
+# x_min = rosen(x_o=[-1.5,1.0],a=20.0,eta=eta,threshold=.001,maxiter=1000,alpha=alpha,anim = 0,up = 1,down = 1,reduce = 1)
+# x_min = rosen(x_o=[-1.5,1.0],a=20.0,eta=eta,threshold=.001,maxiter=1000,alpha=alpha,anim = 1,up = 1,down = 1,reduce = 1)
 # print('The estimated value is %s' %(x_min))
