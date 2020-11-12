@@ -240,8 +240,7 @@ def rosen(x_o=[-1.5,1.0],a=20.0,eta=0.001,threshold=0.001,maxiter=1000,alpha=0.0
         print('Converged in %d steps, f = %f' %(it+1,f))
         plt.show()
         return x_o
-'''   
+  
 print('****STARTING Rosenbrock****')
 x_min = rosen(x_o=[-1.5,1.0],a=20.0,eta=0.001,threshold=.001,maxiter=1000,alpha=0,anim = 1,up = 1,down = 1,reduce = 1)
 print('The estimated value is %s' %(x_min))
-'''
